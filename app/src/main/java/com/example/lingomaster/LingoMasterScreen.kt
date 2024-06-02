@@ -25,46 +25,44 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.lingomaster.ui.GameScreen
+import com.example.lingomaster.ui.SelectLanguageScreen
 import com.example.lingomaster.ui.StartScreen
 import com.example.lingomaster.ui.theme.LingoMasterTheme
 
 enum class LingoMasterScreen()
 {
-    Start, Game
+    Start, Game, Result, Language, Stats
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun LingoMasterAppTopBar(modifier: Modifier = Modifier){
-    TopAppBar(
-        title = { "LingoMaster" },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        ),
-        modifier = modifier)
-}
 
 @Composable
 fun LingoMasterApp(navController: NavHostController = rememberNavController()) {
-    Scaffold(
-        topBar = {
-            LingoMasterAppTopBar()
-        }
-    ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = LingoMasterScreen.Start.name,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(route = LingoMasterScreen.Start.name){
-                StartScreen(modifier = Modifier.fillMaxSize())
-            }
-            composable(route = LingoMasterScreen.Game.name){
-                GameScreen(modifier = Modifier)
-            }
 
+    NavHost(
+        navController = navController,
+        startDestination = LingoMasterScreen.Start.name,
+
+        ) {
+        composable(route = LingoMasterScreen.Start.name) {
+            StartScreen(
+                onGameButtonClick = { navController.navigate(LingoMasterScreen.Game.name) },
+                onLangSelectButtonClick = { navController.navigate(LingoMasterScreen.Language.name) },
+                onStatsButtonClick = { navController.navigate(LingoMasterScreen.Stats.name) },
+                modifier = Modifier.fillMaxSize()
+            )
         }
-        
+        composable(route = LingoMasterScreen.Game.name) {
+            GameScreen(
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        composable(route = LingoMasterScreen.Language.name) {
+            SelectLanguageScreen(
+                onCancelButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
+                onSetButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }
 
