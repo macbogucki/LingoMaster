@@ -53,7 +53,8 @@ fun LingoMasterApp(navController: NavHostController = rememberNavController()) {
         }
         composable(route = LingoMasterScreen.Game.name) {
             GameScreen(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                onExitButtonClick = {navController.navigate(LingoMasterScreen.Start.name)}
             )
         }
         composable(route = LingoMasterScreen.Language.name) {
