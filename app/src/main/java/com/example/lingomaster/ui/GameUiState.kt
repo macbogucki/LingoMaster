@@ -1,5 +1,7 @@
 package com.example.lingomaster.ui
 
+import org.intellij.lang.annotations.Language
+
 data class GameUiState (
     val score: Int = 0,
     val currentCorrectWord: String = "",
@@ -10,5 +12,6 @@ data class GameUiState (
     val currentWordCount: Int = 1,
     val userLives: Int = 3,
     val currentPossibleAnswers: Set<String> = emptySet(),
-    val isShowDialogAlert: Boolean = false
+    val isShowDialogAlert: Boolean = false,
+    val currentLanguage: String = "angielski"
 )

@@ -22,6 +22,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.MaterialTheme
@@ -47,14 +49,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 @Composable
 fun GameScreen(
-    gameViewModel: GameViewModel = viewModel(),
+    gameViewModel: GameViewModel,
     onExitButtonClick: () -> Unit = {},
     modifier: Modifier
 ){
     val gameUiState by gameViewModel.uiState.collectAsState()
 
     Column(
-        modifier = modifier,
+        modifier = modifier.background(color = MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.Top)
     {
         Column(modifier = Modifier
@@ -64,11 +66,11 @@ fun GameScreen(
             verticalArrangement = Arrangement.Bottom) {
             Row(modifier=Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly) {
-                Text(text = "punkty: "+ gameUiState.score.toString(), fontSize = 18.sp)
-                Text(text = gameUiState.currentWordCount.toString() + " /20", fontSize = 18.sp)
-                Text(text = "życia: " + gameUiState.userLives.toString(), fontSize = 18.sp)
+                Text(text = "punkty: "+ gameUiState.score.toString(), fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground)
+                Text(text = gameUiState.currentWordCount.toString() + " /20", fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground)
+                Text(text = "życia: " + gameUiState.userLives.toString(), fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground)
             }
-            Text(text = gameUiState.currentCorrectWordPolish, fontSize = 24.sp, modifier = Modifier.padding(top = 64.dp))
+            Text(text = gameUiState.currentCorrectWordPolish, fontSize = 24.sp, modifier = Modifier.padding(top = 64.dp), color = MaterialTheme.colorScheme.onBackground)
         }
         Spacer(modifier = Modifier.padding(48.dp))
         Column(
@@ -100,15 +102,16 @@ fun GameScreen(
             ) {
                 Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.errorContainer),
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Zła odpowiedź", fontSize = 18.sp, modifier = Modifier.padding(top = 12.dp), color = MaterialTheme.colorScheme.onErrorContainer)
-                    Text(text = "Poprawna to: "+ gameUiState.currentCorrectWord)
+                    Text(text = "Zła odpowiedź", fontSize = 20.sp, modifier = Modifier.padding(top = 12.dp), color = MaterialTheme.colorScheme.error)
+                    Text(text = "Poprawna to: "+ gameUiState.currentCorrectWord, color = MaterialTheme.colorScheme.onErrorContainer)
                     Button(
                         onClick = { gameViewModel.updateGameState() },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 100.dp, start = 32.dp, top = 16.dp, end = 32.dp)
+                            .padding(bottom = 100.dp, start = 32.dp, top = 16.dp, end = 32.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
                     ) {
-                        Text(text = "Kontynuuj", fontSize = 18.sp, modifier = Modifier.padding(4.dp))
+                        Text(text = "Kontynuuj", fontSize = 18.sp, modifier = Modifier.padding(4.dp), color = MaterialTheme.colorScheme.onError)
                     }
                 }
             }
@@ -120,9 +123,9 @@ fun GameScreen(
                 modifier = modifier
 
             ) {
-                Column(modifier = Modifier.background(color = Color.White),
+                Column(modifier = Modifier.background(color = MaterialTheme.colorScheme.primaryContainer),
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Dobra odpowiedź", fontSize = 18.sp, modifier = Modifier.padding(top = 12.dp))
+                    Text(text = "Dobra odpowiedź", fontSize = 18.sp, modifier = Modifier.padding(top = 12.dp), color = MaterialTheme.colorScheme.onPrimaryContainer)
                     Button(
                         onClick = { gameViewModel.updateGameState() },
                         modifier = Modifier
@@ -182,14 +185,14 @@ fun possibleAnswerButton(
         Text(text = possibleAnswer, fontSize = 18.sp, modifier = Modifier.padding(4.dp))
     }
 }
-@Preview
-@Composable
-fun GameScreenPreview() {
-    LingoMasterTheme {
-        GameScreen(
-            modifier = Modifier
-                .fillMaxSize()
-
-        )
-    }
-}
+//@Preview
+//@Composable
+//fun GameScreenPreview() {
+//    LingoMasterTheme {
+//        GameScreen(
+//            modifier = Modifier
+//                .fillMaxSize()
+//
+//        )
+//    }
+//}

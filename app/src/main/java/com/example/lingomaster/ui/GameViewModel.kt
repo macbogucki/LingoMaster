@@ -5,12 +5,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.ViewModel
-import com.example.lingomaster.data.allWords
+import com.example.lingomaster.data.englishWords
 import com.example.lingomaster.data.englishToPolishMap
+import com.example.lingomaster.data.germanToPolishMap
+import com.example.lingomaster.data.germanWords
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import org.intellij.lang.annotations.Language
 
 class GameViewModel : ViewModel() {
 
@@ -21,6 +24,9 @@ class GameViewModel : ViewModel() {
     private var possibleAnswers: MutableSet<String> = mutableSetOf()
     private var correctAnswer = ""
     private var isUserHasLifes = true
+    private var currentSetOfWord: MutableSet<String> = mutableSetOf()
+    private var currentLanguage = "angielski"
+
     var userGuess by mutableStateOf("")
         private set
 
@@ -28,8 +34,24 @@ class GameViewModel : ViewModel() {
         resetGame()
     }
 
+    fun setNewLanguage(newLanguage: String){
+        currentLanguage = newLanguage
+        _uiState.update { currentState -> currentState.copy(currentLanguage = currentLanguage) }
+    }
+    fun setLanguage(){
+        _uiState.update { currentState -> currentState.copy(currentLanguage = currentLanguage) }
+    }
+    fun selectSetOfWords(){
+        if (_uiState.value.currentLanguage == "angielski"){
+            currentSetOfWord = englishWords as MutableSet<String>
+        }
+        if (_uiState.value.currentLanguage == "niemiecki"){
+            currentSetOfWord = germanWords as MutableSet<String>
+        }
+    }
+
     fun DrawCorrectAnswer() {
-        correctAnswer = allWords.random()
+        correctAnswer = currentSetOfWord.random()
         if (usedWords.contains(correctAnswer))
         {
             return DrawCorrectAnswer()
@@ -39,12 +61,26 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    fun mapToPolish(correctAnswer: String): String {
-        return englishToPolishMap[correctAnswer] ?: "Brak tłumaczenia"
+    fun mapWord(correctAnswer: String): String{
+        if (currentLanguage == "angielski"){
+            return englishMapToPolish(correctAnswer)
+        }
+        if (currentLanguage == "niemiecki"){
+            return germanMapToPolish(correctAnswer)
+        }
+        return "Brak tłumaczenia all"
+    }
+
+    fun englishMapToPolish(correctAnswer: String): String {
+        return englishToPolishMap[correctAnswer] ?: "Brak tłumaczenia ang"
+    }
+
+    fun germanMapToPolish(correctAnswer: String): String {
+        return germanToPolishMap[correctAnswer] ?: "Brak tłumaczenia de"
     }
 
     fun DrawSingleAnswer(){
-        val answer = allWords.random()
+        val answer = currentSetOfWord.random()
         if (possibleAnswers.contains(answer) || answer == correctAnswer)
         {
             return DrawSingleAnswer()
@@ -66,6 +102,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun resetGame(){
+        selectSetOfWords()
         isUserHasLifes = true
         usedWords.clear()
         cleanPossibleAnswers()
@@ -75,7 +112,7 @@ class GameViewModel : ViewModel() {
         shuffleAnswers()
         _uiState.value = GameUiState(
             currentCorrectWord = correctAnswer,
-            currentCorrectWordPolish = mapToPolish(correctAnswer),
+            currentCorrectWordPolish = mapWord(correctAnswer),
             currentPossibleAnswers = possibleAnswers)
     }
 
@@ -110,7 +147,8 @@ class GameViewModel : ViewModel() {
                 currentState.copy(
                     isGuessedWordWrong = false,
                     isShowDialogAlert = false,
-                    isGameOver = true
+                    isGameOver = true,
+                    currentLanguage = currentLanguage
                 )
             }
         }
@@ -125,9 +163,10 @@ class GameViewModel : ViewModel() {
                     isGuessedWordWrong = false,
                     isShowDialogAlert = false,
                     currentCorrectWord = correctAnswer,
-                    currentCorrectWordPolish = mapToPolish(correctAnswer),
+                    currentCorrectWordPolish = mapWord(correctAnswer),
                     currentPossibleAnswers = possibleAnswers,
-                    currentWordCount = currentState.currentWordCount.inc()
+                    currentWordCount = currentState.currentWordCount.inc(),
+                    currentLanguage = currentLanguage
                 )
             }
         }

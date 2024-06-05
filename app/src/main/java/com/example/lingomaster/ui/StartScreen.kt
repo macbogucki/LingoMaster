@@ -1,6 +1,7 @@
 package com.example.lingomaster.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,11 +35,11 @@ fun LingoMasterAppTopBar(modifier: Modifier = Modifier){
                 Image(painter = painterResource(id = R.mipmap.logo_static), contentDescription = "logo",
                     modifier.size(80.dp)
                         .padding(8.dp))
-                Text(text = "LingoMaster", fontSize = 32.sp)
+                Text(text = "LingoMaster", fontSize = 32.sp, color = MaterialTheme.colorScheme.onPrimary)
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.colorScheme.primary
         ),
         modifier = modifier)
 }
@@ -46,10 +47,11 @@ fun LingoMasterAppTopBar(modifier: Modifier = Modifier){
 
 @Composable
 fun StartScreen(
-    onGameButtonClick: () -> Unit = {},
+    onGameButtonClick: () -> Unit,
     onLangSelectButtonClick: () -> Unit = {},
     onStatsButtonClick: () -> Unit = {},
-    modifier: Modifier) {
+    modifier: Modifier,
+    gameViewModel: GameViewModel) {
     Scaffold(
         topBar = {
             LingoMasterAppTopBar()
@@ -65,7 +67,9 @@ fun StartScreen(
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 Button(
-                    onClick = onGameButtonClick,
+                    onClick = {
+                        gameViewModel.resetGame()
+                        onGameButtonClick()},
                     modifier = Modifier.widthIn(min = 200.dp)
                 ) {
                     Text(text = "Start", fontSize = 18.sp, modifier = Modifier.padding(4.dp))

@@ -20,11 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.lingomaster.ui.GameScreen
+import com.example.lingomaster.ui.GameViewModel
 import com.example.lingomaster.ui.SelectLanguageScreen
 import com.example.lingomaster.ui.StartScreen
 import com.example.lingomaster.ui.theme.LingoMasterTheme
@@ -36,7 +38,9 @@ enum class LingoMasterScreen()
 
 
 @Composable
-fun LingoMasterApp(navController: NavHostController = rememberNavController()) {
+fun LingoMasterApp(
+    navController: NavHostController = rememberNavController(),
+    gameViewModel: GameViewModel = viewModel()) {
 
     NavHost(
         navController = navController,
@@ -48,17 +52,20 @@ fun LingoMasterApp(navController: NavHostController = rememberNavController()) {
                 onGameButtonClick = { navController.navigate(LingoMasterScreen.Game.name) },
                 onLangSelectButtonClick = { navController.navigate(LingoMasterScreen.Language.name) },
                 onStatsButtonClick = { navController.navigate(LingoMasterScreen.Stats.name) },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                gameViewModel = gameViewModel
             )
         }
         composable(route = LingoMasterScreen.Game.name) {
             GameScreen(
                 modifier = Modifier.fillMaxSize(),
-                onExitButtonClick = {navController.navigate(LingoMasterScreen.Start.name)}
+                onExitButtonClick = {navController.navigate(LingoMasterScreen.Start.name)},
+                gameViewModel = gameViewModel
             )
         }
         composable(route = LingoMasterScreen.Language.name) {
             SelectLanguageScreen(
+                gameViewModel = gameViewModel,
                 onCancelButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
                 onSetButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
                 modifier = Modifier.fillMaxSize()
@@ -66,8 +73,6 @@ fun LingoMasterApp(navController: NavHostController = rememberNavController()) {
         }
     }
 }
-
-
 
 //@Preview
 //@Composable
