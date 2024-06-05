@@ -29,11 +29,12 @@ import com.example.lingomaster.ui.GameScreen
 import com.example.lingomaster.ui.GameViewModel
 import com.example.lingomaster.ui.SelectLanguageScreen
 import com.example.lingomaster.ui.StartScreen
+import com.example.lingomaster.ui.StatsScreen
 import com.example.lingomaster.ui.theme.LingoMasterTheme
 
 enum class LingoMasterScreen()
 {
-    Start, Game, Result, Language, Stats
+    Start, Game, Language, Stats
 }
 
 
@@ -68,6 +69,13 @@ fun LingoMasterApp(
                 gameViewModel = gameViewModel,
                 onCancelButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
                 onSetButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        composable(route = LingoMasterScreen.Stats.name) {
+            StatsScreen(
+                gameViewModel = gameViewModel,
+                onCancelButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
                 modifier = Modifier.fillMaxSize()
             )
         }

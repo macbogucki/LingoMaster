@@ -77,7 +77,7 @@ fun SelectLanguageScreen(
             Text(text = "niemiecki", color = MaterialTheme.colorScheme.onBackground, fontSize = 24.sp)
         }
         Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "Obecnie wybrany: " + selectedLanguage.value, fontSize = 18.sp)
+            Text(text = "Obecnie wybrany: " + selectedLanguage.value, fontSize = 18.sp, color = MaterialTheme.colorScheme.onBackground)
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -86,7 +86,7 @@ fun SelectLanguageScreen(
         ) {
             Button(onClick = onCancelButtonClick,
                 modifier = Modifier.widthIn(min = 150.dp)) {
-                Text(text = "Reset")
+                Text(text = "Cofnij")
             }
             Button(
                 onClick = {

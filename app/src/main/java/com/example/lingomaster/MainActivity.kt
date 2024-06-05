@@ -18,6 +18,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    override fun onStop() {
+        super.onStop()
+
+    }
 }
 //ikona aplikacji
 //<a href="https://www.flaticon.com/free-icons/academy" title="academy icons">Academy icons created by afif fudin - Flaticon</a>
@@ -28,3 +32,4 @@ fun GreetingPreview() {
         LingoMasterApp()
     }
 }
+
