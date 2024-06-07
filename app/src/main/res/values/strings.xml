@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">LingoMaster</string>
+    <string name="Start">Start</string>
+    <string name="Wybierz_jezyk">Wybierz język</string>
+    <string name="Statystyki">Statystyki</string>
+    <string name="punkty">punkty:&#160;</string>
+    <string name="zycia">życia:&#160;</string>
+    <string name="logo">logo</string>
+    <string name="zla_odpowiedz">Zła odpowiedź</string>
+    <string name="Poprawna_to">Poprawna to:&#160;</string>
+    <string name="Kontynuuj">Kontynuuj</string>
+    <string name="Dobra_odpowiedz">Dobra odpowiedź</string>
+    <string name="Koniec_gry">Koniec gry</string>
+    <string name="Zdobyles">Zdobyłeś&#160;</string>
+    <string name="punktow">&#160;punktów</string>
+    <string name="Wyjdz">Wyjdź</string>
+    <string name="Zagraj_ponownie">Zagraj ponownie</string>
+    <string name="Liczba_gier">Liczba gier:&#160;</string>
+    <string name="Wygrane">Wygrane:&#160;</string>
+    <string name="Przegrane">Przegrane:&#160;</string>
+    <string name="brak_statystyk">Brak dostępnych statystyk</string>
+    <string name="reset">Reset</string>
+    <string name="cofnij">Cofnij</string>
+    <string name="Reset_Statystyk">Reset Statystyk</string>
+    <string name="czy_chcesz_reset">Czy chcesz zresetować wszystkie twoje statystyki?</string>
+    <string name="jezyk_do_nauki">Wybierz język do nauki</string>
+    <string name="angielski">angielski</string>
+    <string name="niemiecki">niemiecki</string>
+    <string name="obecnie_wybrany">Obecnie wybrany:&#160;</string>
+    <string name="Zatwierdz">Zatwierdź</string>
+    <string name="serce">serce</string>
 </resources>

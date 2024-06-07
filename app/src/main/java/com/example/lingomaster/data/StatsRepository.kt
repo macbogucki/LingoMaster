@@ -9,7 +9,7 @@ class StatsRepository(private val statsDao: StatsDao) {
 
     // Room executes all queries on a separate thread.
     // Observed Flow will notify the observer when the data has changed.
-    val allWords: Flow<List<StatsData>> = statsDao.getAllStats()
+    val allStats: Flow<List<StatsData>> = statsDao.getAllStats()
 
     // By default Room runs suspend queries off the main thread, therefore, we don't need to
     // implement anything else to ensure we're not doing long running database work
@@ -18,5 +18,18 @@ class StatsRepository(private val statsDao: StatsDao) {
     @WorkerThread
     suspend fun insertStats(stats: StatsData) {
         statsDao.insertStats(stats)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateStats(stats: StatsData) {
+        statsDao.updateStats(stats)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun resetStats(resetStats: StatsData) {
+        statsDao.updateStats(resetStats)
+
     }
 }

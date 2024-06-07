@@ -15,13 +15,49 @@ class StatsViewModel(private val repository: StatsRepository) : ViewModel() {
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val allWords: LiveData<List<StatsData>> = repository.allWords.asLiveData()
+    val allStats: LiveData<List<StatsData>> = repository.allStats.asLiveData()
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
     fun insert(stats: StatsData) = viewModelScope.launch {
         repository.insertStats(stats)
+    }
+
+    fun update(stats: StatsData) = viewModelScope.launch {
+        repository.updateStats(stats)
+    }
+
+    fun updateWins() = viewModelScope.launch {
+        val currentStats = allStats.value?.firstOrNull()
+        currentStats?.let {
+            val updatedStats = it.copy(wins = (it.wins + 1), games = (it.games + 1))
+            update(updatedStats)
+        }
+    }
+
+    fun updateLosses() = viewModelScope.launch {
+        val currentStats = allStats.value?.firstOrNull()
+        currentStats?.let {
+            val updatedStats = it.copy(failures = (it.failures + 1), games = (it.games + 1))
+            update(updatedStats)
+        }
+    }
+
+    fun changeLanguage(newLanguage: String) = viewModelScope.launch {
+        val currentStats = allStats.value?.firstOrNull()
+        currentStats?.let {
+            val updatedStats = it.copy(language = newLanguage)
+            update(updatedStats)
+        }
+    }
+
+    fun resetStats() = viewModelScope.launch {
+        val currentStats = allStats.value?.firstOrNull()
+        currentStats?.let {
+            val resetStats = it.copy(games = 0, wins = 0, failures = 0, language = "angielski")
+            update(resetStats)
+        }
     }
 }
 

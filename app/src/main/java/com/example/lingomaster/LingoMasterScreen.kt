@@ -1,5 +1,6 @@
 package com.example.lingomaster
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -30,6 +34,7 @@ import com.example.lingomaster.ui.GameViewModel
 import com.example.lingomaster.ui.SelectLanguageScreen
 import com.example.lingomaster.ui.StartScreen
 import com.example.lingomaster.ui.StatsScreen
+import com.example.lingomaster.ui.StatsViewModel
 import com.example.lingomaster.ui.theme.LingoMasterTheme
 
 enum class LingoMasterScreen()
@@ -41,7 +46,14 @@ enum class LingoMasterScreen()
 @Composable
 fun LingoMasterApp(
     navController: NavHostController = rememberNavController(),
-    gameViewModel: GameViewModel = viewModel()) {
+    gameViewModel: GameViewModel = viewModel(),
+    statsViewModel: StatsViewModel) {
+
+    val statsList by statsViewModel.allStats.observeAsState(initial = emptyList())
+
+    if (statsList.isNotEmpty()) {
+        gameViewModel.setNewLanguage(statsList.first().language)
+    }
 
     NavHost(
         navController = navController,
@@ -61,7 +73,8 @@ fun LingoMasterApp(
             GameScreen(
                 modifier = Modifier.fillMaxSize(),
                 onExitButtonClick = {navController.navigate(LingoMasterScreen.Start.name)},
-                gameViewModel = gameViewModel
+                gameViewModel = gameViewModel,
+                statsViewModel = statsViewModel
             )
         }
         composable(route = LingoMasterScreen.Language.name) {
@@ -69,39 +82,20 @@ fun LingoMasterApp(
                 gameViewModel = gameViewModel,
                 onCancelButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
                 onSetButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                statsViewModel = statsViewModel,
+                statsList = statsList
             )
         }
         composable(route = LingoMasterScreen.Stats.name) {
             StatsScreen(
                 gameViewModel = gameViewModel,
                 onCancelButtonClick = { navController.navigate(LingoMasterScreen.Start.name) },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                statsViewModel = statsViewModel,
+                statsList = statsList
             )
         }
     }
 }
 
-//@Preview
-//@Composable
-//fun StartScreenPreview() {
-//    LingoMasterTheme {
-//        StartScreen(
-//            modifier = Modifier
-//                .fillMaxSize()
-//
-//        )
-//    }
-//}
-
-//@Preview
-//@Composable
-//fun GameScreenPreview() {
-//    LingoMasterTheme {
-//        GameScreen(
-//            modifier = Modifier
-//                .fillMaxSize()
-//
-//        )
-//    }
-//}

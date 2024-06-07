@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lingomaster.R
@@ -32,8 +33,11 @@ fun LingoMasterAppTopBar(modifier: Modifier = Modifier){
     CenterAlignedTopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(painter = painterResource(id = R.mipmap.logo_static), contentDescription = "logo",
-                    modifier.size(80.dp)
+                Image(painter = painterResource(id = R.mipmap.logo_static), contentDescription = stringResource(
+                    id = R.string.logo
+                ),
+                    modifier
+                        .size(80.dp)
                         .padding(8.dp))
                 Text(text = "LingoMaster", fontSize = 32.sp, color = MaterialTheme.colorScheme.onPrimary)
             }
@@ -72,25 +76,19 @@ fun StartScreen(
                         onGameButtonClick()},
                     modifier = Modifier.widthIn(min = 200.dp)
                 ) {
-                    Text(text = "Start", fontSize = 18.sp, modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.Start), fontSize = 18.sp, modifier = Modifier.padding(4.dp))
                 }
                 Button(
                     onClick = onLangSelectButtonClick,
                     modifier = Modifier.widthIn(min = 200.dp)
                 ) {
-                    Text(text = "Wybierz język", fontSize = 18.sp, modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.Wybierz_jezyk), fontSize = 18.sp, modifier = Modifier.padding(4.dp))
                 }
                 Button(
                     onClick = onStatsButtonClick,
                     modifier = Modifier.widthIn(min = 200.dp)
                 ) {
-                    Text(text = "Statystyki", fontSize = 18.sp, modifier = Modifier.padding(4.dp))
-                }
-                Button(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier.widthIn(min = 200.dp)
-                ) {
-                    Text(text = "Czwarty", fontSize = 18.sp, modifier = Modifier.padding(4.dp))
+                    Text(text = stringResource(id = R.string.Statystyki), fontSize = 18.sp, modifier = Modifier.padding(4.dp))
                 }
             }
 

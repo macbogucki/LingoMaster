@@ -38,9 +38,7 @@ class GameViewModel : ViewModel() {
         currentLanguage = newLanguage
         _uiState.update { currentState -> currentState.copy(currentLanguage = currentLanguage) }
     }
-    fun setLanguage(){
-        _uiState.update { currentState -> currentState.copy(currentLanguage = currentLanguage) }
-    }
+
     fun selectSetOfWords(){
         if (_uiState.value.currentLanguage == "angielski"){
             currentSetOfWord = englishWords as MutableSet<String>
@@ -68,15 +66,15 @@ class GameViewModel : ViewModel() {
         if (currentLanguage == "niemiecki"){
             return germanMapToPolish(correctAnswer)
         }
-        return "Brak tłumaczenia all"
+        return "Brak tłumaczenia"
     }
 
     fun englishMapToPolish(correctAnswer: String): String {
-        return englishToPolishMap[correctAnswer] ?: "Brak tłumaczenia ang"
+        return englishToPolishMap[correctAnswer] ?: "Brak tłumaczenia angielskiego"
     }
 
     fun germanMapToPolish(correctAnswer: String): String {
-        return germanToPolishMap[correctAnswer] ?: "Brak tłumaczenia de"
+        return germanToPolishMap[correctAnswer] ?: "Brak tłumaczenia niemieckiego"
     }
 
     fun DrawSingleAnswer(){
@@ -162,6 +160,7 @@ class GameViewModel : ViewModel() {
                 currentState.copy(
                     isGuessedWordWrong = false,
                     isShowDialogAlert = false,
+                    isGameOver = false,
                     currentCorrectWord = correctAnswer,
                     currentCorrectWordPolish = mapWord(correctAnswer),
                     currentPossibleAnswers = possibleAnswers,
